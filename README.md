@@ -4,6 +4,9 @@ a more secure method such as SFTP. This project does not support multiple users,
 
 At this time it does not support SSL/TLS, though could easily be adapted for this.
 
+Unlink other AWS S3 FTP Docker images out there, this image is tiny (based on Alpine) and it uses an Alpine package to
+install s3fs instead of compiling it from source. FTP is provided by [vsftpd](https://security.appspot.com/vsftpd.html).
+
 ## Prerequisites
 Ensure that you have the following:
 
