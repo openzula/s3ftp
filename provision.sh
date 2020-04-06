@@ -8,6 +8,7 @@ FTP_DATA_DIR="$FTP_USER_HOME"
 
 adduser -h "$FTP_USER_HOME" -s /bin/false -D "$FTP_USER"
 chown -R "$FTP_USER":"$FTP_USER" "$FTP_USER_HOME"
+echo "$FTP_USER" > /etc/vsftpd/userlist
 
 if [ -z "$FTP_PWD" ]; then
   FTP_PWD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c12; echo)
