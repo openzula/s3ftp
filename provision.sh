@@ -18,12 +18,18 @@ fi
 echo "${FTP_USER}:${FTP_PWD}" | /usr/sbin/chpasswd 2> /dev/null
 
 ## Configure AWS S3 Bucket mount
-echo "${FTP_S3_ACCESS_KEY}:${FTP_S3_SECRET}" > /etc/passwd-s3fs
-chmod 0400 /etc/passwd-s3fs
+if [ -z "$FTP_S3_IAM_ROLE" ]; then
+  echo "${FTP_S3_ACCESS_KEY}:${FTP_S3_SECRET}" > /etc/passwd-s3fs
+  chmod 0400 /etc/passwd-s3fs
+
+  s3fsAuthOption="passwd_file=/etc/passwd-s3fs"
+else
+  s3fsAuthOption="iam_role=${FTP_S3_IAM_ROLE}"
+fi
 
 s3fs "$FTP_S3_BUCKET" "$FTP_DATA_DIR" \
     -o allow_other,umask=077,uid="$(id -u "$FTP_USER")",gid="$(id -g "$FTP_USER")" \
-    -o passwd_file=/etc/passwd-s3fs \
+    -o $s3fsAuthOption \
     -o url="https://s3-${FTP_S3_REGION:-eu-west-2}.amazonaws.com"
 
 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf

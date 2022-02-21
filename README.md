@@ -13,7 +13,7 @@ Ensure that you have the following:
 * AWS S3 bucket
   * Name
   * Region (e.g. 'eu-west-2')
-* AWS IAM user with a policy for the desired permissions
+* AWS IAM user or role with a policy for the desired permissions
 
 For example the following IAM policy would provide full write access to the bucket:
 
@@ -67,8 +67,7 @@ docker run -it --rm -d --privileged \
     -p 20:20 -p 21:21 -p 10090-10100:10090-10100 \
     -e FTP_USER='longcat' \
     -e FTP_S3_BUCKET='s3fs-example' \
-    -e FTP_S3_ACCESS_KEY='......' \
-    -e FTP_S3_SECRET='......' \
+    -e FTP_S3_IAM_ROLE='s3fs-role-ec2' \
     --name mys3ftp \
     openzula/s3ftp
 ```
@@ -88,8 +87,9 @@ The following environmental variables can be used at run time to configure the i
 | ---- | ----------- | -------- | ------- |
 | `FTP_USER` | The name of the FTP user to login as | Yes | - |
 | `FTP_PWD` | The password of the FTP user | No | Auto-generated |
-| `FTP_S3_ACCESS_KEY` | The AWS Access Key for the IAM user | Yes | - |
-| `FTP_S3_SECRET` | The AWS Secret Key for the IAM user | Yes | - |
+| `FTP_S3_IAM_ROLE` | The AWS IAM Role to use instead of access tokens | If access keys not used | - |
+| `FTP_S3_ACCESS_KEY` | The AWS Access Key for the IAM user | If role not used | - |
+| `FTP_S3_SECRET` | The AWS Secret Key for the IAM user | If role not used | - |
 | `FTP_S3_BUCKET` | The name of the AWS S3 bucket to mount. s3fs prefixes are supported | Yes | - |
 | `FTP_S3_REGION` | The AWS region of the S3 bucket | No | `eu-west-2` |
 
