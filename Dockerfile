@@ -1,7 +1,7 @@
 FROM alpine:3.18
 LABEL maintainer="alex@openzula.org"
 
-EXPOSE 20 21 10090-10100
+EXPOSE 20 21 50000-50300
 
 RUN apk update
 RUN apk add --no-cache s3fs-fuse vsftpd mailcap
