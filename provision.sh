@@ -32,7 +32,8 @@ s3fs "$FTP_S3_BUCKET" "$FTP_DATA_DIR" \
     -o curldbg \
     -o allow_other,umask=077,uid="$(id -u "$FTP_USER")",gid="$(id -g "$FTP_USER")" \
     -o $s3fsAuthOption \
-    -o url="https://s3-${FTP_S3_REGION:-eu-west-2}.amazonaws.com"
+    -o url="https://s3-${FTP_S3_REGION:-eu-west-2}.amazonaws.com" \
+    -o endpoint="${FTP_S3_REGION:-eu-west-2}"
 
 EC2_PUBLIC_IP=$(wget -q --output-document - http://169.254.169.254/latest/meta-data/public-ipv4)
 sed -i "s/EC2_PUBLIC_IP/$EC2_PUBLIC_IP/" /etc/vsftpd/vsftpd.conf
