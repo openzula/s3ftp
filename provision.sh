@@ -28,6 +28,8 @@ else
 fi
 
 s3fs "$FTP_S3_BUCKET" "$FTP_DATA_DIR" \
+    -o dbglevel=info \
+    -o curldbg \
     -o allow_other,umask=077,uid="$(id -u "$FTP_USER")",gid="$(id -g "$FTP_USER")" \
     -o $s3fsAuthOption \
     -o url="https://s3-${FTP_S3_REGION:-eu-west-2}.amazonaws.com"
